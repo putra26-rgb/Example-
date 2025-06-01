@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Hasil Lomba</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #errorMessage {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cek Hasil Lomba</h1>
+        <form id="lombaForm">
+            <div class="form-group">
+                <label for="noId">No. ID:</label>
+                <input type="text" id="noId" name="noId" required>
+            </div>
+            <div class="form-group">
+                <label for="nama">Nama Peserta:</label>
+                <input type="text" id="nama" name="nama" required>
+            </div>
+            <div class="form-group">
+                <label for="mataLomba">Mata Lomba:</label>
+                <select id="mataLomba" name="mataLomba" required>
+                    <option value="">Pilih Mata Lomba</option>
+                    <option value="excel">Excel</option>
+                    <option value="ipa">IPA</option>
+                    <option value="mtk">MTK</option>
+                    <option value="ips">IPS</option>
+                </select>
+            </div>
+            <button type="submit">Lihat Hasil</button>
+            <div id="errorMessage"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('lombaForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah form untuk submit secara default
+
+            const noIdInput = document.getElementById('noId').value.trim();
+            const namaInput = document.getElementById('nama').value.trim();
+            const mataLombaInput = document.getElementById('mataLomba').value;
+            const errorMessageDiv = document.getElementById('errorMessage');
+            errorMessageDiv.textContent = ''; // Reset error message
+
+            // Ambil data dari localStorage
+            const dataPeserta = JSON.parse(localStorage.getItem('dataLombaPeserta')) || [];
+
+            // Cari data peserta yang cocok
+            const pesertaDitemukan = dataPeserta.find(peserta =>
+                peserta.noId.toLowerCase() === noIdInput.toLowerCase() &&
+                peserta.nama.toLowerCase() === namaInput.toLowerCase() &&
+                peserta.mataLomba === mataLombaInput
+            );
+
+            if (pesertaDitemukan) {
+                // Simpan data di sessionStorage agar bisa diakses di halaman hasil
+                sessionStorage.setItem('noId', pesertaDitemukan.noId);
+                sessionStorage.setItem('nama', pesertaDitemukan.nama);
+                sessionStorage.setItem('mataLomba', pesertaDitemukan.mataLomba);
+                sessionStorage.setItem('nilaiTes1', pesertaDitemukan.nilaiTes1);
+                sessionStorage.setItem('nilaiTes2', pesertaDitemukan.nilaiTes2);
+                sessionStorage.setItem('nilaiTes3', pesertaDitemukan.nilaiTes3);
+
+                // Redirect ke halaman hasil
+                window.location.href = 'hasil.html';
+            } else {
+                errorMessageDiv.textContent = 'Data Anda tidak ditemukan. Mohon periksa kembali No. ID, Nama, dan Mata Lomba Anda.';
+            }
+        });
+    </script>
+</body>
+</html>

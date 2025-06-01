@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Data Lomba (Panitia)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #message {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: green;
+        }
+        .data-list {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .data-list h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        #pesertaTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        #pesertaTable th, #pesertaTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 0.9em;
+        }
+        #pesertaTable th {
+            background-color: #f9f9f9;
+        }
+        .clear-button {
+            background-color: #dc3545;
+            margin-top: 20px;
+        }
+        .clear-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Input Data Lomba (Panitia)</h1>
+        <form id="panitiaForm">
+            <div class="form-group">
+                <label for="noIdPanitia">No. ID:</label>
+                <input type="text" id="noIdPanitia" name="noIdPanitia" required>
+            </div>
+            <div class="form-group">
+                <label for="namaPanitia">Nama Peserta:</label>
+                <input type="text" id="namaPanitia" name="namaPanitia" required>
+            </div>
+            <div class="form-group">
+                <label for="mataLombaPanitia">Mata Lomba:</label>
+                <select id="mataLombaPanitia" name="mataLombaPanitia" required>
+                    <option value="">Pilih Mata Lomba</option>
+                    <option value="excel">Excel</option>
+                    <option value="ipa">IPA</option>
+                    <option value="mtk">MTK</option>
+                    <option value="ips">IPS</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nilaiTes1Panitia">Nilai Tes 1:</label>
+                <input type="number" id="nilaiTes1Panitia" name="nilaiTes1Panitia" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="nilaiTes2Panitia">Nilai Tes 2:</label>
+                <input type="number" id="nilaiTes2Panitia" name="nilaiTes2Panitia" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="nilaiTes3Panitia">Nilai Tes 3:</label>
+                <input type="number" id="nilaiTes3Panitia" name="nilaiTes3Panitia" min="0" max="100" required>
+            </div>
+            <button type="submit">Simpan Data Peserta</button>
+            <div id="message"></div>
+        </form>
+
+        <div class="data-list">
+            <h2>Data Peserta Tersimpan</h2>
+            <table id="pesertaTable">
+                <thead>
+                    <tr>
+                        <th>No. ID</th>
+                        <th>Nama</th>
+                        <th>Lomba</th>
+                        <th>T1</th>
+                        <th>T2</th>
+                        <th>T3</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="pesertaTableBody">
+                    </tbody>
+            </table>
+            <button class="clear-button" id="clearDataButton">Bersihkan Semua Data</button>
+        </div>
+    </div>
+
+    <script>
+        const panitiaForm = document.getElementById('panitiaForm');
+        const messageDiv = document.getElementById('message');
+        const pesertaTableBody = document.getElementById('pesertaTableBody');
+        const clearDataButton = document.getElementById('clearDataButton');
+
+        // Fungsi untuk memuat dan menampilkan data dari localStorage
+        function loadPesertaData() {
+            pesertaTableBody.innerHTML = ''; // Bersihkan tabel
+            const pesertaData = JSON.parse(localStorage.getItem('dataLombaPeserta')) || [];
+
+            pesertaData.forEach((peserta, index) => {
+                const row = pesertaTableBody.insertRow();
+                row.insertCell().textContent = peserta.noId;
+                row.insertCell().textContent = peserta.nama;
+                row.insertCell().textContent = peserta.mataLomba;
+                row.insertCell().textContent = peserta.nilaiTes1;
+                row.insertCell().textContent = peserta.nilaiTes2;
+                row.insertCell().textContent = peserta.nilaiTes3;
+
+                const actionCell = row.insertCell();
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Hapus';
+                deleteButton.style.backgroundColor = '#f44336';
+                deleteButton.style.color = 'white';
+                deleteButton.style.border = 'none';
+                deleteButton.style.padding = '5px 10px';
+                deleteButton.style.borderRadius = '3px';
+                deleteButton.style.cursor = 'pointer';
+                deleteButton.style.fontSize = '0.8em';
+                deleteButton.style.width = 'auto'; // Override default button width
+                deleteButton.addEventListener('click', () => deletePesertaData(index));
+                actionCell.appendChild(deleteButton);
+            });
+        }
+
+        // Fungsi untuk menghapus data peserta
+        function deletePesertaData(indexToDelete) {
+            let pesertaData = JSON.parse(localStorage.getItem('dataLombaPeserta')) || [];
+            pesertaData.splice(indexToDelete, 1); // Hapus 1 elemen dari index yang diberikan
+            localStorage.setItem('dataLombaPeserta', JSON.stringify(pesertaData));
+            loadPesertaData(); // Muat ulang tabel
+            messageDiv.textContent = 'Data peserta berhasil dihapus!';
+            messageDiv.style.color = 'orange';
+            setTimeout(() => messageDiv.textContent = '', 3000);
+        }
+
+        // Event listener untuk submit form panitia
+        panitiaForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const noId = document.getElementById('noIdPanitia').value.trim();
+            const nama = document.getElementById('namaPanitia').value.trim();
+            const mataLomba = document.getElementById('mataLombaPanitia').value;
+            const nilaiTes1 = parseInt(document.getElementById('nilaiTes1Panitia').value);
+            const nilaiTes2 = parseInt(document.getElementById('nilaiTes2Panitia').value);
+            const nilaiTes3 = parseInt(document.getElementById('nilaiTes3Panitia').value);
+
+            // Ambil data yang sudah ada, atau buat array kosong jika belum ada
+            let pesertaData = JSON.parse(localStorage.getItem('dataLombaPeserta')) || [];
+
+            // Cek duplikasi (opsional, tapi disarankan)
+            const isDuplicate = pesertaData.some(p => p.noId === noId && p.mataLomba === mataLomba);
+            if (isDuplicate) {
+                messageDiv.textContent = 'Data dengan No. ID dan Mata Lomba yang sama sudah ada!';
+                messageDiv.style.color = 'red';
+                setTimeout(() => messageDiv.textContent = '', 3000);
+                return;
+            }
+
+            const newPeserta = {
+                noId: noId,
+                nama: nama,
+                mataLomba: mataLomba,
+                nilaiTes1: nilaiTes1,
+                nilaiTes2: nilaiTes2,
+                nilaiTes3: nilaiTes3
+            };
+
+            pesertaData.push(newPeserta);
+
+            // Simpan kembali ke localStorage
+            localStorage.setItem('dataLombaPeserta', JSON.stringify(pesertaData));
+
+            messageDiv.textContent = 'Data peserta berhasil disimpan!';
+            messageDiv.style.color = 'green';
+            panitiaForm.reset(); // Bersihkan form
+            loadPesertaData(); // Muat ulang tabel
+            setTimeout(() => messageDiv.textContent = '', 3000);
+        });
+
+        // Event listener untuk tombol bersihkan semua data
+        clearDataButton.addEventListener('click', function() {
+            if (confirm("Apakah Anda yakin ingin menghapus semua data peserta? Aksi ini tidak dapat dibatalkan.")) {
+                localStorage.removeItem('dataLombaPeserta');
+                loadPesertaData();
+                messageDiv.textContent = 'Semua data peserta telah dihapus!';
+                messageDiv.style.color = 'red';
+                setTimeout(() => messageDiv.textContent = '', 3000);
+            }
+        });
+
+        // Muat data saat halaman pertama kali dimuat
+        document.addEventListener('DOMContentLoaded', loadPesertaData);
+    </script>
+</body>
+</html>
