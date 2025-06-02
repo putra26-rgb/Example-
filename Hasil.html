@@ -2,29 +2,31 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1024">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hasil Lomba</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px; /* Tambahkan padding untuk responsif di layar kecil */
-            box-sizing: border-box;
-        }
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 700px; /* Batasi lebar maksimal */
-        }
-        h1, h2 {
+body {
+    font-family: Times New Roman;
+    background-color: white;
+    display: flex;
+    flex-direction: column; /* Ubah menjadi column agar elemen di dalamnya tersusun vertikal */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Jaga agar minimal setinggi viewport */
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.container {
+    background-color: #E1D8E2;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 20px; /* Beri jarak antara container hasil lomba dan sertifikat */
+}
+h1, h2 {
             text-align: center;
             color: #333;
             margin-bottom: 20px;
@@ -42,17 +44,17 @@
             margin-top: 20px;
         }
         th, td {
-            border: 1px solid #ddd;
+            border: 1px solid grey;
             padding: 10px;
             text-align: center;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #FFF0F5;
             color: #333;
         }
         .rata-rata {
             font-weight: bold;
-            color: #007bff;
+            color: #a06e00;
         }
         .juara {
             font-weight: bold;
@@ -67,7 +69,7 @@
             color: #a06e00;
         }
         .juara.silver {
-            background-color: #d1d1d1;
+            background-color: #fffaf0;
             color: #696969;
         }
         .juara.bronze {
@@ -80,86 +82,135 @@
         }
         .back-button {
             display: block;
-            width: 180px; /* Perlebar tombol sedikit */
+            width: 180px;
             margin: 30px auto 0;
-            padding: 12px; /* Perbesar padding */
-            background-color: #6c757d;
+            padding: 12px;
+            background-color: #a06e00;
             color: white;
             text-align: center;
             text-decoration: none;
             border-radius: 4px;
-            font-size: 1.1em; /* Perbesar font */
+            font-size: 1.1em;
             transition: background-color 0.3s ease;
         }
         .back-button:hover {
-            background-color: #5a6268;
+            background-color: #a06e00;
+        }
+/* CSS untuk Sertifikat */
+.certificate-container {
+    /* Hapus display: none; dari sini. Biarkan JavaScript yang mengontrol visibility dengan .show */
+    border: 5px solid #a06e00;
+    padding: 30px;
+    margin-top: 40px;
+    text-align: center;
+    background-image: url('Image/golden.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #f0f0f0;
+    padding: 45px;
+    min-height: 320px;
+
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    
+    position: relative; /* Penting untuk z-index jika ada elemen lain */
+    transition: all 0.3s ease-in-out; 
+    opacity: 0;
+    height: 0;
+    overflow: hidden; /* Sembunyikan konten jika tinggi 0 */
+    transform: scale(0.9); /* Sedikit kecil saat tersembunyi */
+}
+
+.certificate-container.show {
+    opacity: 1;
+    height: auto; /* Kembalikan ke tinggi otomatis saat ditampilkan */
+    transform: scale(1); /* Kembali ke ukuran normal */
+    display: block; /* Pastikan dia muncul */
+}
+
+
+/* Style untuk teks sertifikat */
+.certificate-title,
+.certificate-subtitle,
+.certificate-name,
+.certificate-award,
+.certificate-lomba,
+.certificate-date,
+.certificate-signature {
+    position: relative; /* Penting untuk z-index di atas gambar */
+    z-index: 1; /* Pastikan semua teks ini berada di atas gambar latar belakang */
+    color: #333; /* Default warna teks, sesuaikan agar kontras dengan gambar */
+    /* Anda bisa menyesuaikan warna teks individual untuk kontras yang lebih baik */
+}
+
+/* Contoh penyesuaian warna teks agar lebih terlihat di atas gambar golden */
+.certificate-title {
+    font-family: 'Times New Roman', serif;
+    font-size: 2.5em;
+    color: #4a2f00; /* Warna coklat tua */
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+.certificate-subtitle {
+    font-size: 1.2em;
+    color: #664a00; /* Warna coklat sedang */
+    margin-bottom: 20px;
+}
+.certificate-name {
+    font-family: 'Georgia', serif;
+    font-size: 2em;
+    color: #222; /* Hampir hitam */
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.certificate-award {
+    font-size: 1.5em;
+    color: #8b4513; /* Coklat saddlebrown */
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+.certificate-lomba {
+    font-size: 1.1em;
+    color: #555; /* Abu-abu gelap */
+    margin-bottom: 30px;
+}
+.certificate-date {
+    font-size: 0.9em;
+    color: #777;
+    margin-top: 20px;
+}
+.certificate-signature {
+    margin-top: 50px;
+    border-top: 1px solid #ccc;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5px;
+    font-size: 0.9em;
+    color: #444;
+}
+.gambar-bergerak {
+            width: 100px; /* Sesuaikan ukuran gambar */
+            height: 100px;
+            position: relative;
+            animation: gerakTurunNaik 2s infinite alternate ease-in-out; /* Menambahkan ease-in-out untuk transisi lebih smooth */
         }
 
-        /* CSS untuk Sertifikat */
-        .certificate-container {
-            display: none; /* Sembunyikan secara default, tampilkan jika juara */
-            border: 5px solid #a06e00; /* Border emas */
-            padding: 30px;
-            margin-top: 40px;
-            text-align: center;
-            background-color: #fffaf0; /* Warna krem muda */
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-        }
-        .certificate-container.show {
-            display: block;
-        }
-        .certificate-title {
-            font-family: 'Times New Roman', serif;
-            font-size: 2.5em;
-            color: #4a2f00;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-        .certificate-subtitle {
-            font-size: 1.2em;
-            color: #555;
-            margin-bottom: 20px;
-        }
-        .certificate-name {
-            font-family: 'Georgia', serif;
-            font-size: 2em;
-            color: #000;
-            margin-bottom: 10px;
-            font-weight: bold;
-            text-decoration: underline;
-        }
-        .certificate-award {
-            font-size: 1.5em;
-            color: #8b4513; /* Cokelat tua */
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-        .certificate-lomba {
-            font-size: 1.1em;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .certificate-date {
-            font-size: 0.9em;
-            color: #777;
-            margin-top: 20px;
-        }
-        .certificate-signature {
-            margin-top: 50px;
-            border-top: 1px solid #ccc;
-            width: 50%;
-            margin-left: auto;
-            margin-right: auto;
-            padding-top: 5px;
-            font-size: 0.9em;
-            color: #444;
-        }
+        @keyframes gerakTurunNaik {
+            0% {
+                top: 0;
+            }
+            100% {
+                top: 20px; /* Gambar akan bergerak turun 20px */
+            }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Hasil Lomba</h1>
+        <h1>HASIL AKHIR</h1>
+        <img src="Image/panda2.png" width="100" height="100" style="display: block; margin: auto;" alt="panda" class="gambar-bergerak"/>
         <div class="data-peserta">
             <p>No. ID: <span id="displayNoId"></span></p>
             <p>Nama Peserta: <span id="displayName"></span></p>
@@ -187,86 +238,78 @@
         </table>
 
         <div class="juara" id="displayJuara"></div>
-
-        <div class="certificate-container" id="certificateContainer">
-            <div class="certificate-title">SERTIFIKAT PENGHARGAAN</div>
-            <div class="certificate-subtitle">Dengan bangga mempersembahkan sertifikat ini kepada:</div>
-            <div class="certificate-name" id="certName"></div>
-            <div class="certificate-award">Sebagai <span id="certAward"></span></div>
-            <div class="certificate-lomba">Dalam kategori <span id="certLomba"></span></div>
-            <div class="certificate-date">Diberikan pada: <span id="certDate"></span></div>
-            <div class="certificate-signature">Panitia Penyelenggara Lomba</div>
-        </div>
-
-        <a href="https://putra26-rgb.github.io/Example-/Index.html" class="back-button">Cek Kembali</a>
+    </div>
+    
+    <div class="certificate-container" id="certificateContainer">
+        <div class="certificate-title">SERTIFIKAT PENGHARGAAN</div>
+        <div class="certificate-subtitle">Dengan bangga mempersembahkan sertifikat ini kepada:</div>
+        <div class="certificate-name" id="certName"></div>
+        <div class="certificate-award">Sebagai <span id="certAward"></span></div>
+        <div class="certificate-lomba">Dalam kategori <span id="certLomba"></span></div>
+        <div class="certificate-date">Diberikan pada: <span id="certDate"></span></div>
+        <div class="certificate-signature">Panitia Penyelenggara Lomba</div>
     </div>
 
+    <a href="index.html" class="back-button">Cek Kembali</a>
+
     <script>
-        // Ambil data dari sessionStorage
-        const noId = sessionStorage.getItem('noId');
-        const nama = sessionStorage.getItem('nama');
-        const mataLomba = sessionStorage.getItem('mataLomba');
-        const nilai1 = parseInt(sessionStorage.getItem('nilaiTes1'));
-        const nilai2 = parseInt(sessionStorage.getItem('nilaiTes2'));
-        const nilai3 = parseInt(sessionStorage.getItem('nilaiTes3'));
+        // Ambil data peserta dari localStorage
+        const dataPeserta = JSON.parse(localStorage.getItem('dataPesertaLomba'));
 
-        // Tampilkan data peserta
-        document.getElementById('displayNoId').textContent = noId;
-        document.getElementById('displayName').textContent = nama;
-        document.getElementById('displayMataLomba').textContent = mataLomba;
+        if (dataPeserta) {
+            document.getElementById('displayNoId').textContent = dataPeserta.noId;
+            document.getElementById('displayName').textContent = dataPeserta.nama;
+            document.getElementById('displayMataLomba').textContent = dataPeserta.mataLomba;
 
-        // Hitung rata-rata
-        const rataRata = (nilai1 + nilai2 + nilai3) / 3;
+            const rataRata = (dataPeserta.nilai1 + dataPeserta.nilai2 + dataPeserta.nilai3) / 3;
 
-        // Tampilkan nilai tes dan rata-rata
-        document.getElementById('nilai1').textContent = nilai1;
-        document.getElementById('nilai2').textContent = nilai2;
-        document.getElementById('nilai3').textContent = nilai3;
-        document.getElementById('rataRata').textContent = rataRata.toFixed(2); // Bulatkan 2 angka di belakang koma
+            document.getElementById('nilai1').textContent = dataPeserta.nilai1;
+            document.getElementById('nilai2').textContent = dataPeserta.nilai2;
+            document.getElementById('nilai3').textContent = dataPeserta.nilai3;
+            document.getElementById('rataRata').textContent = rataRata.toFixed(2);
 
-        // Elemen sertifikat
-        const certificateContainer = document.getElementById('certificateContainer');
-        const certName = document.getElementById('certName');
-        const certAward = document.getElementById('certAward');
-        const certLomba = document.getElementById('certLomba');
-        const certDate = document.getElementById('certDate');
+            const certificateContainer = document.getElementById('certificateContainer');
+            const certName = document.getElementById('certName');
+            const certAward = document.getElementById('certAward');
+            const certLomba = document.getElementById('certLomba');
+            const certDate = document.getElementById('certDate');
 
-        // Tentukan juara berdasarkan kriteria
-        let juaraStatus = '';
-        let juaraClass = '';
+            let juaraStatus = '';
+            let juaraClass = '';
 
-        if (rataRata >= 90) {
-            juaraStatus = 'Selamat, Anda Juara 1!';
-            juaraClass = 'gold';
-            certificateContainer.classList.add('show'); // Tampilkan sertifikat
-            certAward.textContent = 'Juara 1';
-        } else if (rataRata >= 80) {
-            juaraStatus = 'Selamat, Anda Juara 2!';
-            juaraClass = 'silver';
-            certificateContainer.classList.add('show'); // Tampilkan sertifikat
-            certAward.textContent = 'Juara 2';
-        } else if (rataRata >= 70) {
-            juaraStatus = 'Selamat, Anda Juara 3!';
-            juaraClass = 'bronze';
-            certificateContainer.classList.add('show'); // Tampilkan sertifikat
-            certAward.textContent = 'Juara 3';
+            if (rataRata >= 900) {
+                juaraStatus = 'Selamat, Anda Juara 1!🥇';
+                juaraClass = 'gold';
+                certificateContainer.classList.add('show'); // Tampilkan sertifikat
+                certAward.textContent = 'Juara 1';
+            } else if (rataRata >= 800) {
+                juaraStatus = 'Selamat, Anda Juara 2!🥈';
+                juaraClass = 'silver';
+                certificateContainer.classList.add('show'); // Tampilkan sertifikat
+                certAward.textContent = 'Juara 2';
+            } else if (rataRata >= 700) {
+                juaraStatus = 'Selamat, Anda Juara 3! 🥉';
+                juaraClass = 'bronze';
+                certificateContainer.classList.add('show'); // Tampilkan sertifikat
+                certAward.textContent = 'Juara 3';
+            } else {
+                juaraStatus = 'Tetap Semangat masih ada kesempatan yang lebih baik!! [Belum Juara]';
+                juaraClass = 'none';
+                certificateContainer.classList.remove('show'); // Sembunyikan sertifikat
+            }
+
+            document.getElementById('displayJuara').textContent = juaraStatus;
+            document.getElementById('displayJuara').classList.add(juaraClass);
+
+            if (certificateContainer.classList.contains('show')) {
+                certName.textContent = dataPeserta.nama;
+                certLomba.textContent = dataPeserta.mataLomba.toUpperCase();
+                const today = new Date();
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                certDate.textContent = today.toLocaleDateString('id-ID', options);
+            }
         } else {
-            juaraStatus = 'Belum Juara';
-            juaraClass = 'none';
-            certificateContainer.classList.remove('show'); // Pastikan sertifikat tersembunyi
-        }
-
-        // Tampilkan status juara
-        document.getElementById('displayJuara').textContent = juaraStatus;
-        document.getElementById('displayJuara').classList.add(juaraClass);
-
-        // Isi data sertifikat jika ditampilkan
-        if (certificateContainer.classList.contains('show')) {
-            certName.textContent = nama;
-            certLomba.textContent = mataLomba.toUpperCase();
-            const today = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            certDate.textContent = today.toLocaleDateString('id-ID', options);
+            document.querySelector('.container').innerHTML = '<h1>Data peserta tidak ditemukan!</h1><p style="text-align:center;">Silakan kembali ke <a href="index.html">halaman utama</a> untuk mencari hasil lomba.</p>';
         }
     </script>
 </body>

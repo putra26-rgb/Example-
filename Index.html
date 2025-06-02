@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cek Hasil Lomba</title>
+    
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Times New Roman;
             background-color: #f4f4f4;
             display: flex;
             justify-content: center;
@@ -15,7 +16,7 @@
             margin: 0;
         }
         .container {
-            background-color: #fff;
+            background-color: #E1D8E2;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -43,9 +44,10 @@
             box-sizing: border-box;
         }
         button {
+          font-family: Times New Roman;
             width: 100%;
             padding: 12px;
-            background-color: #007bff;
+            background-color: #a06e00;
             color: white;
             border: none;
             border-radius: 4px;
@@ -54,7 +56,7 @@
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #a06e00;
         }
         #errorMessage {
             color: red;
@@ -66,6 +68,7 @@
 <body>
     <div class="container">
         <h1>Cek Hasil Lomba</h1>
+        <img src="Image/panda2.png" width="150" height="150" style="display: block; margin: auto;" alt="panda"/>
         <form id="lombaForm">
             <div class="form-group">
                 <label for="noId">No. ID:</label>
@@ -79,10 +82,10 @@
                 <label for="mataLomba">Mata Lomba:</label>
                 <select id="mataLomba" name="mataLomba" required>
                     <option value="">Pilih Mata Lomba</option>
-                    <option value="excel">Excel</option>
-                    <option value="ipa">IPA</option>
-                    <option value="mtk">MTK</option>
-                    <option value="ips">IPS</option>
+                    <option value="Excel">Excel</option>
+                    <option value="IPA">IPA</option>
+                    <option value="Matematika">Matematika</option>
+                    <option value="IPS">IPS</option>
                 </select>
             </div>
             <button type="submit">Lihat Hasil</button>
@@ -100,27 +103,58 @@
             const errorMessageDiv = document.getElementById('errorMessage');
             errorMessageDiv.textContent = ''; // Reset error message
 
-            // Ambil data dari localStorage
-            const dataPeserta = JSON.parse(localStorage.getItem('dataLombaPeserta')) || [];
+            // --- DAFTAR PESERTA YANG DIANGGAP VALID DENGAN NILAI ---
+            // Data ini adalah "database" peserta Anda.
+            // Tambahkan semua peserta beserta nilai-nilai mereka di sini.
+            const daftarPesertaValid = [
+                {
+                    noId: '01',
+                    nama: 'Agni',
+                    mataLomba: 'Excel',
+                    nilai1: 850,
+                    nilai2: 900,
+                    nilai3: 780
+                },
+                {
+                    noId: '01',
+                    nama: 'Agni',
+                    mataLomba: 'IPA',
+                    nilai1: 751,
+                    nilai2: 673,
+                    nilai3: 600
+                },
+                {
+                    noId: '01',
+                    nama: 'Agni',
+                    mataLomba: 'Matematika',
+                    nilai1: 800,
+                    nilai2: 804,
+                    nilai3: 673
+                },
+                {
+                    noId: '01',
+                    nama: 'Agni',
+                    mataLomba: 'IPS',
+                    nilai1: 999,
+                    nilai2: 980,
+                    nilai3: 1000
+                },
+                // Tambahkan lebih banyak peserta sesuai kebutuhan
+            ];
+            // --- AKHIR DAFTAR PESERTA VALID ---
 
-            // Cari data peserta yang cocok
-            const pesertaDitemukan = dataPeserta.find(peserta =>
+            // Cari data peserta yang cocok dari daftar valid
+            const pesertaDitemukan = daftarPesertaValid.find(peserta =>
                 peserta.noId.toLowerCase() === noIdInput.toLowerCase() &&
                 peserta.nama.toLowerCase() === namaInput.toLowerCase() &&
                 peserta.mataLomba === mataLombaInput
             );
 
             if (pesertaDitemukan) {
-                // Simpan data di sessionStorage agar bisa diakses di halaman hasil
-                sessionStorage.setItem('noId', pesertaDitemukan.noId);
-                sessionStorage.setItem('nama', pesertaDitemukan.nama);
-                sessionStorage.setItem('mataLomba', pesertaDitemukan.mataLomba);
-                sessionStorage.setItem('nilaiTes1', pesertaDitemukan.nilaiTes1);
-                sessionStorage.setItem('nilaiTes2', pesertaDitemukan.nilaiTes2);
-                sessionStorage.setItem('nilaiTes3', pesertaDitemukan.nilaiTes3);
-
-                // Redirect ke halaman hasil
-                window.location.href = 'https://putra26-rgb.github.io/Example-/Hasil.html'; 
+                // Jika data cocok, simpan seluruh objek peserta ke localStorage
+                // JSON.stringify() mengubah objek JavaScript menjadi string JSON
+                localStorage.setItem('dataPesertaLomba', JSON.stringify(pesertaDitemukan));
+                window.location.href = 'hasil.html'; // Arahkan ke halaman hasil.html
             } else {
                 errorMessageDiv.textContent = 'Data Anda tidak ditemukan. Mohon periksa kembali No. ID, Nama, dan Mata Lomba Anda.';
             }
