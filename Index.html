@@ -68,7 +68,7 @@
 <body>
     <div class="container">
         <h1>Cek Hasil Lomba</h1>
-        <img src="Image/panda2.png" width="150" height="150" style="display: block; margin: auto;" alt="panda"/>
+        <img src="panda2.png" width="150" height="150" style="display: block; margin: auto;" alt="panda"/>
         <form id="lombaForm">
             <div class="form-group">
                 <label for="noId">No. ID:</label>
@@ -154,7 +154,7 @@
                 // Jika data cocok, simpan seluruh objek peserta ke localStorage
                 // JSON.stringify() mengubah objek JavaScript menjadi string JSON
                 localStorage.setItem('dataPesertaLomba', JSON.stringify(pesertaDitemukan));
-                window.location.href = 'hasil.html'; // Arahkan ke halaman hasil.html
+                window.location.href = 'https://putra26-rgb.github.io/Example-/Hasil.html'; // Arahkan ke halaman hasil.html
             } else {
                 errorMessageDiv.textContent = 'Data Anda tidak ditemukan. Mohon periksa kembali No. ID, Nama, dan Mata Lomba Anda.';
             }
